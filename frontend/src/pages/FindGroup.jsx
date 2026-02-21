@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import socket from "../socket";
 
 function FindGroup() {
 
@@ -7,9 +8,25 @@ function FindGroup() {
   const [selected, setSelected] = useState([]);
   const [message, setMessage] = useState("");
 
+  const activeGroup = localStorage.getItem("active_group");
+
   useEffect(() => {
     document.title = "Find Group | Connectify";
-  }, []);
+
+    // Listen for match response
+    socket.on("matchedGroup", (roomId) => {
+
+      // Save active group
+      localStorage.setItem("active_group", roomId);
+
+      setMessage("Matched! Redirecting to chat...");
+      navigate("/chat", { state: { groupId: roomId } });
+    });
+
+    return () => {
+      socket.off("matchedGroup");
+    };
+  }, [navigate]);
 
   const interests = [
     "AI / ML",
@@ -30,30 +47,40 @@ function FindGroup() {
     );
   };
 
-const matchUser = async () => {
-  try {
-    const res = await fetch("http://localhost:5000/api/groups/join", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        interests: selected,
-      }),
-    });
+  const matchUser = () => {
+    if (selected.length === 0) return;
 
-    const data = await res.json();
+    socket.emit("joinMatch", selected);
+  };
 
-    // Optional: show message
-    setMessage(`Joined group for ${data.interest}`);
+  // 🚨 If already part of a group
+  if (activeGroup) {
+    return (
+      <div className="page-root">
+        <section className="section findgroup-section">
+          <h2 className="section-title">
+            You are already part of a group
+          </h2>
 
-    // Navigate to chat and send group data
-    navigate("/chat", { state: { group: data } });
+          <button onClick={() => navigate("/chat")}>
+            Go to Chat
+          </button>
 
-  } catch (err) {
-    console.error(err);
+          <div style={{ marginTop: "20px" }}>
+            <button
+              style={{ background: "#ef4444" }}
+              onClick={() => {
+                localStorage.removeItem("active_group");
+                window.location.reload();
+              }}
+            >
+              Leave Current Group
+            </button>
+          </div>
+        </section>
+      </div>
+    );
   }
-};
 
   return (
     <div className="page-root">
