@@ -8,8 +8,9 @@ module.exports = function(io) {
       console.log(`User joined group ${groupId}`);
     });
 
-    socket.on("sendMessage", (data) => {
-      io.to(data.groupId).emit("receiveMessage", data);
+    socket.on("joinGroup", (groupId) => {
+      socket.join(groupId);
+      console.log("Joined room:", groupId);
     });
 
     socket.on("disconnect", () => {
