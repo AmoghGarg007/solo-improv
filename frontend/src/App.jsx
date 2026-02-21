@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import FindGroup from "./pages/FindGroup";
 import Calendar from "./pages/Calendar";
 import Footer from "./components/Footer";
-import Chat from "./Chat"
+import Chat from "./pages/Chat"
 
 function App() {
   return (
