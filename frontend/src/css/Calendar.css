@@ -301,3 +301,26 @@
     font-size:0.9rem;
   }
 }
+
+.event-highlight {
+  background: linear-gradient(135deg, #3b82f6, #06b6d4) !important;
+  color: white !important;
+  border-radius: 10px;
+}
+
+.event-label {
+  font-size: 9px;
+  margin-top: 4px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.event-card {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #111a2e;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

@@ -1,8 +1,8 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 const app = express();
@@ -10,9 +10,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+/* ===== OPTIONAL MONGO CONNECTION ===== */
+/* Comment this out if Mongo not running */
+
+if (process.env.MONGO_URI) {
+  mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => console.log("Mongo not connected (using memory mode)"));
+}
+
+/* ===== ROUTES ===== */
+const eventRoutes = require("./routes/eventRoutes");
+app.use("/api/events", eventRoutes);
 
 const server = http.createServer(app);
 
