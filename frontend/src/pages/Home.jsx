@@ -146,19 +146,19 @@ function Home() {
 
           <div className="team-card glass">
             <div className="team-avatar blue-gradient">👤</div>
-            <h3>Amogh Garg</h3>
+            <h3>Amogh Garg and Rithvik Addanki</h3>
             <p className="team-role">Frontend Developer</p>
           </div>
 
           <div className="team-card glass">
             <div className="team-avatar orange-gradient">👤</div>
-            <h3>Team Member 2</h3>
+            <h3>Arrham Jain</h3>
             <p className="team-role">Backend Developer</p>
           </div>
 
           <div className="team-card glass">
             <div className="team-avatar blue-gradient">👤</div>
-            <h3>Amogh Garg</h3>
+            <h3>Akshat Jayesh Bongale</h3>
             <p className="team-role">UI/UX Designer</p>
           </div>
 
